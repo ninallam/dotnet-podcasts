@@ -1,4 +1,5 @@
 using Podcast.Components;
+using Podcast.Components.Middlewares;
 using Podcast.Pages.Data;
 using Podcast.Shared;
 
@@ -23,6 +24,10 @@ builder.Services.AddScoped<ListenLaterService>();
 builder.Services.AddSingleton<PlayerService>();
 builder.Services.AddScoped<ListenTogetherHubClient>(_ =>
     new ListenTogetherHubClient(builder.Configuration["ListenTogetherHub"]!));
+builder.Services.AddApplicationInsightsTelemetry();
+builder.Services.AddTransient<RequestBodyLoggingMiddleware>();
+builder.Services.AddTransient<ResponseBodyLoggingMiddleware>();
+
 
 var app = builder.Build();
 
@@ -39,6 +44,9 @@ else
     app.UseHttpsRedirection();
 }
 
+
+app.UseMiddleware<RequestBodyLoggingMiddleware>();
+app.UseMiddleware<ResponseBodyLoggingMiddleware>();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 app.UseRouting();
