@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-		<ContainerImageName>podcastupdaterworker</ContainerImageName>
+		<ContainerRepository>podcastupdaterworker</ContainerRepository>
 	</PropertyGroup>
 
   <ItemGroup>
